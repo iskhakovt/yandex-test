@@ -13,11 +13,6 @@ import java.util.Map;
 
 
 public class MainActivity extends Activity {
-    //final String ATTRIBUTE_IMAGE = "";
-    final String ATTRIBUTE_NAME = "name";
-    final String ATTRIBUTE_NAME_GENRE = "genre";
-    final String ATTRIBUTE_NAME_DESCRIPTION = "description";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,20 +20,17 @@ public class MainActivity extends Activity {
 
         final ListView listview = (ListView) findViewById(R.id.listView);
 
-        ArrayList<Map<String, String>> attributes = new ArrayList<>();
-        HashMap<String, String> attribute_values = new HashMap<>();
+        ArrayList<ArtistItem> attributes = new ArrayList<>();
 
-        attribute_values.put(ATTRIBUTE_NAME, "The Beatles");
-        attribute_values.put(ATTRIBUTE_NAME_GENRE, "Rock & Roll");
-        attribute_values.put(ATTRIBUTE_NAME_DESCRIPTION, "Cool");
+        attributes.add(new ArtistItem(
+                "The Beatles",
+                "Rock & Roll",
+                "Cool",
+                "https://upload.wikimedia.org/wikipedia/commons/d/df/The_Fabs.JPG",
+                ""
+        ));
 
-        attributes.add(attribute_values);
-
-        String[] from = {ATTRIBUTE_NAME, ATTRIBUTE_NAME_GENRE, ATTRIBUTE_NAME_DESCRIPTION};
-        int[] to = {R.id.artistName, R.id.artistGenre, R.id.artistDescription};
-
-        SimpleAdapter sa = new SimpleAdapter(this, attributes, R.layout.activity_item, from, to);
-        listview.setAdapter(sa);
+        listview.setAdapter(new ItemAdapter(this, attributes));
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
