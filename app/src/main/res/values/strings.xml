@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Yandex Test</string>
+    <string name="short_description" formatted="false">%d альбомов, %d песен</string>
 </resources>

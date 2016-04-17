@@ -5,11 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class MainActivity extends Activity {
@@ -18,21 +13,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ListView listview = (ListView) findViewById(R.id.listView);
+        final ListView listView = (ListView) findViewById(R.id.listView);
+        new ListInitTask(listView, this).execute("http://cache-default03e.cdn.yandex.net/download.cdn.yandex.net/mobilization-2016/artists.json");
 
-        ArrayList<ArtistItem> attributes = new ArrayList<>();
-
-        attributes.add(new ArtistItem(
-                "The Beatles",
-                "Rock & Roll",
-                "Cool",
-                "https://upload.wikimedia.org/wikipedia/commons/d/df/The_Fabs.JPG",
-                ""
-        ));
-
-        listview.setAdapter(new ItemAdapter(this, attributes));
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 

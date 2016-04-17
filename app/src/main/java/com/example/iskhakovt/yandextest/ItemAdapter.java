@@ -36,7 +36,6 @@ public class ItemAdapter extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder holder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.activity_item, parent, false);
@@ -54,10 +53,12 @@ public class ItemAdapter extends BaseAdapter {
         ArtistItem artistItem = (ArtistItem) listData.get(position);
         holder.artistNameView.setText(artistItem.getName());
         holder.artistGenreView.setText(artistItem.getGenre());
-        holder.artistDescriptionView.setText("");
+        holder.artistDescriptionView.setText(
+                String.format(convertView.getResources().getString(R.string.short_description), artistItem.getAlbums(), artistItem.getTracks())
+        );
 
         if (holder.imageView != null) {
-            new ImageDownloadTask(holder.imageView).execute(artistItem.getSmallImageUrl());
+            new ImageDownloadTask(holder.imageView).execute(artistItem.getSmallCoverUrl());
         }
 
         return convertView;
