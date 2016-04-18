@@ -7,6 +7,7 @@
 package com.example.iskhakovt.yandextest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -22,9 +23,15 @@ public class ItemAdapter extends BaseAdapter {
     private ArrayList listData;
     private LayoutInflater layoutInflater;
 
+    /**
+     * Executing image download tasks
+     */
+    HashMap<ImageView, ImageDownloadTask> imageDownloadTasks;
+
     public ItemAdapter(Context context, ArrayList listData) {
         this.listData = listData;
         layoutInflater = LayoutInflater.from(context);
+        imageDownloadTasks = new HashMap<>();
     }
 
     @Override
@@ -71,12 +78,20 @@ public class ItemAdapter extends BaseAdapter {
                         albumsNum, albumsStr, tracksNum, tracksStr)
         );
 
+        // Display placeholder while downloading
         Drawable placeholder = convertView.getResources().getDrawable(R.drawable.placeholder);
         holder.imageView.setImageDrawable(placeholder);
-        holder.imageView.setContentDescription(artistItem.getSmallCoverUrl());
-        if (holder.imageView != null) {
-            new ImageDownloadTask(holder.imageView).execute(artistItem.getSmallCoverUrl());
+
+        // Cancel previous task
+        ImageDownloadTask previousDownloadTask = this.imageDownloadTasks.get(holder.imageView);
+        if (previousDownloadTask != null) {
+            previousDownloadTask.cancel(false);
         }
+
+        // Start downloading a new image
+        ImageDownloadTask downloadTask = new ImageDownloadTask(holder.imageView);
+        downloadTask.execute(artistItem.getSmallCoverUrl());
+        this.imageDownloadTasks.put(holder.imageView, downloadTask);
 
         // Start the ellipsize animation
         holder.artistNameView.setSelected(true);

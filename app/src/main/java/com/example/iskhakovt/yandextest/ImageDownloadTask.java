@@ -14,11 +14,13 @@ import java.net.URL;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Pair;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 
-public class ImageDownloadTask extends AsyncTask<String, Void, Pair<Bitmap, String>> {
+public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
+    // TODO: Caching
+
     private final WeakReference<ImageView> imageViewReference;
 
     public ImageDownloadTask(ImageView imageView) {
@@ -26,27 +28,26 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Pair<Bitmap, Stri
     }
 
     @Override
-    protected Pair<Bitmap, String> doInBackground(String... params) {
+    protected Bitmap doInBackground(String... params) {
         return downloadBitmap(params[0]);
     }
 
     @Override
-    protected void onPostExecute(Pair<Bitmap, String> response) {
+    protected void onPostExecute(Bitmap bitmap) {
         if (isCancelled()) {
-            response = null;
+            bitmap = null;
         }
 
+        // TODO: Redownload
+
         ImageView imageView = imageViewReference.get();
-        if (imageView != null) {
-            if (response != null) {
-                if (imageView.getContentDescription().equals(response.second)) {
-                    imageView.setImageBitmap(response.first);
-                }
-            }
+        if (imageView != null && bitmap != null) {
+            imageView.setImageBitmap(bitmap);
         }
     }
 
-    private Pair<Bitmap, String> downloadBitmap(String url) {
+    @Nullable
+    private Bitmap downloadBitmap(String url) {
         HttpURLConnection urlConnection = null;
         try {
             URL uri = new URL(url);
@@ -59,7 +60,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Pair<Bitmap, Stri
 
             InputStream inputStream = urlConnection.getInputStream();
             if (inputStream != null) {
-                return Pair.create(BitmapFactory.decodeStream(inputStream), url);
+                return BitmapFactory.decodeStream(inputStream);
             }
         } catch (Exception e) {
             if (urlConnection != null) {
