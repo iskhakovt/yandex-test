@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) Timur Iskhakov.
+ * Distributed under the terms of the MIT License.
+ */
+
+
 package com.example.iskhakovt.yandextest;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -59,8 +63,6 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
         ItemAdapter adaptor = new ItemAdapter(context, attributes);
         listView.setAdapter(adaptor);
         adaptor.notifyDataSetChanged();
-
-//        listView.invalidate();
     }
 
     private String downloadFile(String url) {
@@ -78,11 +80,11 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
             InputStream inputStream = urlConnection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder sb = new StringBuilder();
-            String line = null;
+            String line;
 
             try {
                 while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
+                    sb.append(line).append("\n");
                 }
             } catch (IOException e) {
                 return null;

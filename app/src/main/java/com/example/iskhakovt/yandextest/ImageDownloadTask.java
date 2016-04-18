@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) Timur Iskhakov.
+ * Distributed under the terms of the MIT License.
+ */
+
+
 package com.example.iskhakovt.yandextest;
 
 import java.io.InputStream;
@@ -11,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.content.res.ResourcesCompat;
 import android.widget.ImageView;
+
 
 public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> imageViewReference;
