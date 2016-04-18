@@ -78,6 +78,11 @@ public class ItemAdapter extends BaseAdapter {
             new ImageDownloadTask(holder.imageView).execute(artistItem.getSmallCoverUrl());
         }
 
+        // Start the ellipsize animation
+        holder.artistNameView.setSelected(true);
+        holder.artistGenreView.setSelected(true);
+        holder.artistDescriptionView.setSelected(true);
+
         return convertView;
     }
 
