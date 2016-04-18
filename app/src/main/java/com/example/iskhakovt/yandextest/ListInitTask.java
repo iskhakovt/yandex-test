@@ -70,7 +70,7 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
         try {
             URL uri = new URL(url);
             urlConnection = (HttpURLConnection) uri.openConnection();
-            urlConnection.connect();
+            urlConnection.setInstanceFollowRedirects(true);
 
             int statusCode = urlConnection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {

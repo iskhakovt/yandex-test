@@ -9,6 +9,7 @@ package com.example.iskhakovt.yandextest;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class ItemAdapter extends BaseAdapter {
             holder.artistGenreView = (TextView) convertView.findViewById(R.id.artistGenre);
             holder.artistDescriptionView = (TextView) convertView.findViewById(R.id.artistDescription);
             holder.imageView = (ImageView) convertView.findViewById(R.id.image);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -59,10 +61,19 @@ public class ItemAdapter extends BaseAdapter {
         ArtistItem artistItem = (ArtistItem) listData.get(position);
         holder.artistNameView.setText(artistItem.getName());
         holder.artistGenreView.setText(artistItem.getGenre());
+
+        int albumsNum = artistItem.getAlbums();
+        int tracksNum = artistItem.getTracks();
+        String albumsStr = convertView.getResources().getQuantityString(R.plurals.album, albumsNum);
+        String tracksStr = convertView.getResources().getQuantityString(R.plurals.tracks, tracksNum);
         holder.artistDescriptionView.setText(
-                String.format(convertView.getResources().getString(R.string.short_description), artistItem.getAlbums(), artistItem.getTracks())
+                String.format(convertView.getResources().getString(R.string.short_description),
+                        albumsNum, albumsStr, tracksNum, tracksStr)
         );
 
+        Drawable placeholder = convertView.getResources().getDrawable(R.drawable.placeholder);
+        holder.imageView.setImageDrawable(placeholder);
+        holder.imageView.setContentDescription(artistItem.getSmallCoverUrl());
         if (holder.imageView != null) {
             new ImageDownloadTask(holder.imageView).execute(artistItem.getSmallCoverUrl());
         }

@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final ListView listView = (ListView) findViewById(R.id.listView);
-        new ListInitTask(listView, this).execute("http://cache-default03e.cdn.yandex.net/download.cdn.yandex.net/mobilization-2016/artists.json");
+        new ListInitTask(listView, this).execute("http://download.cdn.yandex.net/mobilization-2016/artists.json");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

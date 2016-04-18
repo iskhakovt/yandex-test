@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Яндекс Тест</string>
+
+    <plurals name="album">
+        <item quantity="zero">альбомов</item>
+        <item quantity="one">альбом</item>
+        <item quantity="few">альбома</item>
+        <item quantity="many">альбомов</item>
+    </plurals>
+
+    <plurals name="tracks">
+        <item quantity="zero">песен</item>
+        <item quantity="one">песня</item>
+        <item quantity="few">песни</item>
+        <item quantity="many">песен</item>
+    </plurals>
+</resources>

@@ -1,4 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Yandex Test</string>
-    <string name="short_description" formatted="false">%d альбомов, %d песен</string>
+    <string name="short_description" formatted="false">%d %s, %d %s</string>
+
+    <plurals name="album">
+        <item quantity="one">album</item>
+        <item quantity="other">albums</item>
+    </plurals>
+
+    <plurals name="tracks">
+        <item quantity="one">album</item>
+        <item quantity="other">albums</item>
+    </plurals>
 </resources>
