@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Яндекс Тест</string>
+    <string name="app_name">Исполнители</string>
 
     <plurals name="album">
         <item quantity="zero">альбомов</item>
