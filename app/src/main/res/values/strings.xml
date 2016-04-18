@@ -9,7 +9,7 @@
     </plurals>
 
     <plurals name="tracks">
-        <item quantity="one">album</item>
-        <item quantity="other">albums</item>
+        <item quantity="one">track</item>
+        <item quantity="other">tracks</item>
     </plurals>
 </resources>
