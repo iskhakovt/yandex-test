@@ -61,7 +61,7 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
 
     @Nullable
     private String downloadFile(String url) {
-        byte[] data = CachingDownload.download(url);
+        byte[] data = CachingDownload.download(url, false, true);
         if (data != null) {
             return new String(data);
         } else {

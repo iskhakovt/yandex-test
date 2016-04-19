@@ -36,18 +36,49 @@ public class CachingDownload {
     }
 
     /**
-     * Download or load from cache a file (make sure that the task is run by an AsyncTask
+     * Download or load from cache a file if already downloaded (make sure that the task is run by an AsyncTask)
      * @param url file url
      * @return binary file content
      */
-    public static byte[] download(String url) {
+    public static byte[] download(String url, boolean notCached, boolean tryUpdate) {
+        byte[] data = loadFile(url);
+        if (data == null) {
+            data = downloadUrl(url);
+        }
+        return data;
+    }
+
+    /**
+     * Download a file without using cache (make sure that the task is run by an AsyncTask
+     * @param url file url
+     * @return binary file content
+     */
+    public static byte[] downloadNotCached(String url) {
+        return downloadUrl(url);
+    }
+
+    /**
+     * Download or load from cach a file e if there is no connection
+     * @param url file url
+     * @return binary file content
+     */
+    public static byte[] downloadTryUpdate(String url) {
+        byte[] data = downloadUrl(url);
+        if (data == null) {
+            data = loadFile(url);
+        }
+        return data;
+    }
+
+    @Nullable
+    private static byte[] loadFile(String url) {
         try {
             String fileName = Integer.toString(url.hashCode());
             File file = new File(cacheDir, fileName);
             FileInputStream inputStream = new FileInputStream(file);
             return readStream(inputStream);
         } catch (Exception e) {
-            return downloadUrl(url);
+            return null;
         }
     }
 
