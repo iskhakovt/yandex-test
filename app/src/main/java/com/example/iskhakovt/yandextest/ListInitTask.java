@@ -8,19 +8,12 @@ package com.example.iskhakovt.yandextest;
 
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +29,6 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         return downloadFile(params[0]);
     }
-
 
     @Override
     protected void onPostExecute(String response) {
@@ -69,41 +61,12 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
 
     @Nullable
     private String downloadFile(String url) {
-        HttpURLConnection urlConnection = null;
-        try {
-            URL uri = new URL(url);
-            urlConnection = (HttpURLConnection) uri.openConnection();
-            urlConnection.setInstanceFollowRedirects(true);
-
-            int statusCode = urlConnection.getResponseCode();
-            if (statusCode != HttpURLConnection.HTTP_OK) {
-                return null;
-            }
-
-            InputStream inputStream = urlConnection.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder sb = new StringBuilder();
-            String line;
-
-            try {
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-            } catch (IOException e) {
-                return null;
-            }
-
-            return sb.toString();
-        } catch (Exception e) {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
+        byte[] data = CachingDownload.download(url);
+        if (data != null) {
+            return new String(data);
+        } else {
+            return null;
         }
-        return null;
     }
 
     @Nullable

@@ -6,10 +6,7 @@
 
 package com.example.iskhakovt.yandextest;
 
-import java.io.InputStream;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,8 +16,6 @@ import android.widget.ImageView;
 
 
 public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
-    // TODO: Caching
-
     private final WeakReference<ImageView> imageViewReference;
 
     public ImageDownloadTask(ImageView imageView) {
@@ -38,8 +33,6 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
             bitmap = null;
         }
 
-        // TODO: Redownload
-
         ImageView imageView = imageViewReference.get();
         if (imageView != null && bitmap != null) {
             imageView.setImageBitmap(bitmap);
@@ -48,29 +41,11 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Nullable
     private Bitmap downloadBitmap(String url) {
-        HttpURLConnection urlConnection = null;
-        try {
-            URL uri = new URL(url);
-            urlConnection = (HttpURLConnection) uri.openConnection();
-
-            int statusCode = urlConnection.getResponseCode();
-            if (statusCode != HttpURLConnection.HTTP_OK) {
-                return null;
-            }
-
-            InputStream inputStream = urlConnection.getInputStream();
-            if (inputStream != null) {
-                return BitmapFactory.decodeStream(inputStream);
-            }
-        } catch (Exception e) {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
+        byte[] data = CachingDownload.download(url);
+        if (data != null) {
+            return BitmapFactory.decodeByteArray(data, 0, data.length);
+        } else {
+            return null;
         }
-        return null;
     }
 }
