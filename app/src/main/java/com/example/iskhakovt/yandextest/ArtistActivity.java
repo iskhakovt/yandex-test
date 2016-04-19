@@ -7,6 +7,7 @@
 package com.example.iskhakovt.yandextest;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ArtistActivity extends AppCompatActivity {
+    ArtistItem artistItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +34,7 @@ public class ArtistActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        ArtistItem artistItem = (ArtistItem)intent.getSerializableExtra(MainActivity.ARTIST_ITEM);
+        artistItem = (ArtistItem)intent.getSerializableExtra(MainActivity.ARTIST_ITEM);
 
         ImageView imageView = (ImageView) findViewById(R.id.image);
         TextView artistGenreView = (TextView) findViewById(R.id.artistGenre);
@@ -78,6 +82,18 @@ public class ArtistActivity extends AppCompatActivity {
     }
 
     public void onWebsite(MenuItem menuItem) {
+        String url = artistItem.getLink();
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
+        if (browserIntent.resolveActivity(getPackageManager()) == null) {
+            // No browser found
+
+            String text = getString(R.string.no_browser);
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+            toast.show();
+        }
+
+        startActivity(browserIntent);
     }
 }
