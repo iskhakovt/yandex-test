@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Downloads and unpacks the MainActivity's artist JSON
+ * Calls loaded on success and notLoaded on failure
+ */
 public class ListInitTask extends AsyncTask<String, Void, String> {
     private final WeakReference<MainActivity> activityReference;
 
@@ -37,6 +41,7 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
         }
 
         List<ArtistItem> attributes = new ArrayList<>();
+
         try {
             JSONArray jsonArray = new JSONArray(response);
 
@@ -48,11 +53,15 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
             }
 
             MainActivity activity = activityReference.get();
+
+            // Download might finish when the application is in tray, so activity is null
             if (activity != null) {
                 activity.loaded(attributes);
             }
         } catch (Exception e) {
             MainActivity activity = activityReference.get();
+
+            // Download might finish when the application is in tray, so activity is null
             if (activity != null) {
                 activity.notLoaded();
             }
@@ -61,6 +70,7 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
 
     @Nullable
     private String downloadFile(String url) {
+        // Prefer updated file
         byte[] data = CachingDownload.downloadTryUpdate(url);
         if (data != null) {
             return new String(data);
@@ -69,6 +79,11 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
         }
     }
 
+    /**
+     * Parse a JSON containing one ArtistItem entry
+     * @param json JSON object to be unpacked
+     * @return Artist Item
+     */
     @Nullable
     private ArtistItem proceedEntry(JSONObject json) {
         try {

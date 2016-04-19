@@ -12,6 +12,10 @@ import android.text.TextUtils;
 import java.io.Serializable;
 import java.util.List;
 
+
+/**
+ * Artist entry
+ */
 public class ArtistItem implements Serializable {
     private String name;
     private List<String> genres;
@@ -43,8 +47,12 @@ public class ArtistItem implements Serializable {
         return genres;
     }
 
-    public String getGenreString() {
-        return TextUtils.join(", ", genres);
+    /**
+     * Get a string of genres
+     * @param separator A separator for entries
+     */
+    public String getGenreString(String separator) {
+        return TextUtils.join(separator, genres);
     }
 
     public int getTracks() {
@@ -71,6 +79,9 @@ public class ArtistItem implements Serializable {
         return bigCoverUrl;
     }
 
+    /**
+     * Check if the artist has a genre
+     */
     public Boolean hasGenre(String genre) {
         return genres.indexOf(genre) != -1;
     }

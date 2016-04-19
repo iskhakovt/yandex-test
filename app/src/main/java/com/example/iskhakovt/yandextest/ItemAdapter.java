@@ -76,7 +76,7 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
         final ArtistItem artistItem = getItem(position);
 
         holder.artistNameView.setText(artistItem.getName());
-        holder.artistGenreView.setText(artistItem.getGenreString());
+        holder.artistGenreView.setText(artistItem.getGenreString(", "));
 
         int albumsNum = artistItem.getAlbums();
         int tracksNum = artistItem.getTracks();
@@ -115,6 +115,10 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
         return convertView;
     }
 
+
+    /**
+     * Processing view
+     */
     static class ViewHolder {
         TextView artistNameView;
         TextView artistGenreView;
@@ -122,10 +126,15 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
         ImageView imageView;
     }
 
+
+    /**
+     * @return Artist Item Filter
+     */
     @Override
     public Filter getFilter() {
         return filter;
     }
+
 
     public class ArtistItemFilter extends Filter {
         /**
@@ -159,7 +168,6 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
 
             return filterResults;
         }
-
 
         /**
          * Checks whether the artist name was searching for

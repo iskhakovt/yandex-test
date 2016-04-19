@@ -19,7 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+/**
+ * Artist description activity
+ */
 public class ArtistActivity extends AppCompatActivity {
+    /**
+     * Displaying artist entry
+     */
     ArtistItem artistItem;
 
     @Override
@@ -28,11 +34,14 @@ public class ArtistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_artist);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        // Register toolbar
         setSupportActionBar(toolbar);
 
-        // Add toolbar's Up button
+        // Add toolbar's back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Get atrist entry from parent
         final Intent intent = getIntent();
         artistItem = (ArtistItem)intent.getSerializableExtra(MainActivity.ARTIST_ITEM);
 
@@ -44,7 +53,7 @@ public class ArtistActivity extends AppCompatActivity {
         // Toolbar's title
         getSupportActionBar().setTitle(artistItem.getName());
 
-        artistGenreView.setText(artistItem.getGenreString());
+        artistGenreView.setText(artistItem.getGenreString(", "));
 
         int albumsNum = artistItem.getAlbums();
         int tracksNum = artistItem.getTracks();
@@ -65,13 +74,20 @@ public class ArtistActivity extends AppCompatActivity {
         downloadTask.execute(artistItem.getBigCoverUrl());
     }
 
+    /**
+     * Toolbar item click
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the toolbars's Up button
             case android.R.id.home:
                 Intent intent = NavUtils.getParentActivityIntent(this);
+
+                // Clear the activity top
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                // Back to parent activity
                 NavUtils.navigateUpTo(this, intent);
                 return true;
         }
@@ -85,6 +101,9 @@ public class ArtistActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Toolbar website click
+     */
     public void onWebsite(MenuItem menuItem) {
         String url = artistItem.getLink();
         final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -98,6 +117,7 @@ public class ArtistActivity extends AppCompatActivity {
             toast.show();
         }
 
+        // Show website in browser
         startActivity(browserIntent);
     }
 }

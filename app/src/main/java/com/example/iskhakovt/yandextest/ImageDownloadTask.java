@@ -15,7 +15,13 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 
+/**
+ * Async download image to an ImageView
+ */
 public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
+    /**
+     * Destination view
+     */
     private final WeakReference<ImageView> imageViewReference;
 
     public ImageDownloadTask(ImageView imageView) {
@@ -41,6 +47,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Nullable
     private Bitmap downloadBitmap(String url) {
+        // Prefer cached image
         byte[] data = CachingDownload.download(url);
         if (data != null) {
             return BitmapFactory.decodeByteArray(data, 0, data.length);

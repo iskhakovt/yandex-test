@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,13 +34,37 @@ import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    /**
+     * String to pass ArtistItem to ArtistActivity
+     */
     public final static String ARTIST_ITEM = "com.example.iskhakovt.yandextest.MainActivity.ARTIST_ITEM";
 
+    /**
+     * Last try to download a JSON file failed
+     */
     private boolean connectionFailureObserved = false;
+
+    /**
+     * Adapter holding Artist Items for list view
+     */
     private ItemAdapter adapter = null;
-    private String searchText = "", searchGenre = "";
-    private ActionBarDrawerToggle drawerToggle;
+
+    /**
+     * Text to filter by name
+     */
+    private String searchText = "";
+
+    /**
+     * Genre to filter
+     */
+    private String searchGenre = "";
+
+    /**
+     * Genres found in downloaded file
+     */
     private List<String> genres = new ArrayList<>();
+
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loadArtists();
     }
 
+    /**
+     * Create toolbar search icon menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -66,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchEditText.setHint(getString(R.string.search));
 
+        // Add text change events
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -83,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /**
+     * Display only searched items
+     */
     private void displaySearched() {
         if (adapter != null) {
             try {
@@ -98,9 +128,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    /**
+     * Set toolbar attributes
+     */
     private void createToolbar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        // Register toolbar
         setSupportActionBar(toolbar);
+
+        // Show toolbar back button, which would be replaced with Navigation View button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -119,25 +156,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
+        // Register this as Navigation View Listener
+        // See main method onNavigationItemSelected below
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     *
+     */
     private void loadArtists() {
         new ListInitTask(this).execute(getString(R.string.artist_resource_url));
     }
 
+    /**
+     * Succeeded to load artists file
+     * @param attributes list of artists
+     */
     public void loaded(List<ArtistItem> attributes) {
         // Not required now, useful if updates would be implemented
         connectionFailureObserved = false;
 
         final ListView listView = (ListView) findViewById(R.id.list_view);
 
+        // Load data to adapter
         adapter = new ItemAdapter(this, attributes);
         listView.setAdapter(adapter);
         displaySearched();
         adapter.notifyDataSetChanged();
 
+        // Set artist items click event
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
@@ -145,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 Intent intent = new Intent(parent.getContext(), ArtistActivity.class);
                 intent.putExtra(ARTIST_ITEM, item);
+
+                // Show Artist Activity
                 startActivity(intent);
             }
         });
@@ -175,25 +225,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menu.setGroupCheckable(R.id.nav_genre, true, true);
     }
 
+    /**
+     * Failed to load artists file
+     */
     public void notLoaded() {
         if (!connectionFailureObserved) {
+            // Do not show toast message a lot of times
             connectionFailureObserved = true;
 
+            // Show toast
             String text = getString(R.string.connection_failure);
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(getApplicationContext(), text, duration);
             toast.show();
         }
 
+        // Try again
         loadArtists();
     }
 
+    /**
+     * Toolbar button pressed
+     * @param item always search item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Toolbar home button pressed
+
                 if (drawerToggle.isDrawerIndicatorEnabled()) {
+                    // Toolbar home button is replaced with Navigation View  button
                     return drawerToggle.onOptionsItemSelected(item);
                 } else {
                     onBackPressed();
@@ -216,17 +278,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
+    /**
+     * Back button pressed
+     */
     @Override
     public void onBackPressed() {
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
+            // Was in Navigation View, close it
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    /**
+     * Navigation View item (genre) was selected
+     * @param item menu (genre) item
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         item.setCheckable(true);
@@ -248,15 +317,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        item.setCheckable(true);
-
-        Log.w("MainActivity", Boolean.toString(item.isCheckable()));
-        if(item.isCheckable()) {
-            item.setChecked(!item.isChecked());
-        }
-
+        // Close Navigation View
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 }
