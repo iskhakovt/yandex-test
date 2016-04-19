@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orderInCategory="100"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        android:title="WAT"
+        app:showAsAction="always" >
+
+        <menu>
+            <item xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/websiteItem"
+                android:title="@string/website"
+                android:onClick="onWebsite"
+                app:showAsAction="always" />
+        </menu>
+
+    </item>
+</menu>
