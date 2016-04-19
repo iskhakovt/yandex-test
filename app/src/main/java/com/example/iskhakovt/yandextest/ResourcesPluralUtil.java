@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) Timur Iskhakov.
+ * Distributed under the terms of the MIT License.
+ */
+
+
 package com.example.iskhakovt.yandextest;
 
 import android.content.res.Resources;
@@ -19,5 +25,4 @@ public class ResourcesPluralUtil {
             return resources.getQuantityString(resId, quantity, formatArgs);
         }
     }
-
 }
