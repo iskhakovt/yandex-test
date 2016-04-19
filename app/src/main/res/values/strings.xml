@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Timur Iskhakov.
+  ~ Distributed under the terms of the MIT License.
+-->
+
+
 <resources>
-    <string name="artist_resource_url">http://download.cdn.yandex.net/mobilization-2016/artists.json</string>
+    <string name="artist_resource_url" translatable="false">http://download.cdn.yandex.net/mobilization-2016/artists.json</string>
     <string name="app_name">Artists</string>
-    <string name="short_description_item" formatted="false">%s, %s</string>
-    <string name="short_description_artist" formatted="false">"%s   \u22C5   %s"</string>
+    <string name="short_description_item" formatted="false" translatable="false">%s, %s</string>
+    <string name="short_description_artist" formatted="false" translatable="false">"%s   \u22C5   %s"</string>
     <string name="description_title">Biography</string>
     <string name="website">Visit website</string>
     <string name="search">Search...</string>

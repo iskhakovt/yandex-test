@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Timur Iskhakov.
+  ~ Distributed under the terms of the MIT License.
+-->
+
+
 <resources>
     <string name="app_name">Исполнители</string>
     <string name="description_title">Биография</string>
