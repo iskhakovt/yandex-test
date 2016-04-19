@@ -36,11 +36,12 @@ public class CachingDownload {
     }
 
     /**
-     * Download or load from cache a file if already downloaded (make sure that the task is run by an AsyncTask)
+     * Download or load from cache a file if already downloaded
+     * (make sure that the task is run by an AsyncTask)
      * @param url file url
      * @return binary file content
      */
-    public static byte[] download(String url, boolean notCached, boolean tryUpdate) {
+    public static byte[] download(String url) {
         byte[] data = loadFile(url);
         if (data == null) {
             data = downloadUrl(url);
@@ -49,7 +50,8 @@ public class CachingDownload {
     }
 
     /**
-     * Download a file without using cache (make sure that the task is run by an AsyncTask
+     * Download a file without using cache
+     * (make sure that the task is run by an AsyncTask)
      * @param url file url
      * @return binary file content
      */
@@ -59,6 +61,7 @@ public class CachingDownload {
 
     /**
      * Download or load from cach a file e if there is no connection
+     * (make sure that the task is run by an AsyncTask)
      * @param url file url
      * @return binary file content
      */
@@ -83,7 +86,8 @@ public class CachingDownload {
     }
 
     /**
-     * Download a file (make sure that the task is run by an AsyncTask)
+     * Download a file
+     * (make sure that the task is run by an AsyncTask)
      * @param url file url
      * @return binary file content
      */

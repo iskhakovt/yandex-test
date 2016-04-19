@@ -41,7 +41,7 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 
     @Nullable
     private Bitmap downloadBitmap(String url) {
-        byte[] data = CachingDownload.downloadTryUpdate(url);
+        byte[] data = CachingDownload.download(url);
         if (data != null) {
             return BitmapFactory.decodeByteArray(data, 0, data.length);
         } else {
