@@ -7,6 +7,7 @@
 package com.example.iskhakovt.yandextest;
 
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.json.JSONArray;
@@ -53,9 +54,15 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
                 }
             }
 
-            activityReference.get().loaded(attributes);
+            MainActivity activity = activityReference.get();
+            if (activity != null) {
+                activity.loaded(attributes);
+            }
         } catch (Exception e) {
-            activityReference.get().notLoaded();
+            MainActivity activity = activityReference.get();
+            if (activity != null) {
+                activity.notLoaded();
+            }
         }
     }
 
@@ -97,6 +104,7 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
         return null;
     }
 
+    @Nullable
     private ArtistItem proceedEntry(JSONObject json) {
         try {
             String name = json.getString("name");
