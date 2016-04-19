@@ -13,12 +13,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-    public final static String ARTIST_ITEM = "com.example.iskhakovt.yandextest.ARTIST_ITEM";
+    public final static String ARTIST_ITEM = "com.example.iskhakovt.yandextest.MainActivity.ARTIST_ITEM";
+    private boolean connectionFailureObserved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +29,17 @@ public class MainActivity extends AppCompatActivity {
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        loadArtists();
+    }
+
+    private void loadArtists() {
         new ListInitTask(this).execute(getString(R.string.artist_resource_url));
     }
 
     public void loaded(ArrayList<ArtistItem> attributes) {
+        // Not required now, useful if updates would be implemented
+        connectionFailureObserved = false;
+
         final ListView listView = (ListView) findViewById(R.id.listView);
 
         ItemAdapter adaptor = new ItemAdapter(this, attributes);
@@ -50,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void notLoaded() {
+        if (!connectionFailureObserved) {
+            connectionFailureObserved = true;
 
+            String text = getString(R.string.connection_failure);
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+            toast.show();
+        }
+
+        loadArtists();
     }
 }

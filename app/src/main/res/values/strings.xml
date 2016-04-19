@@ -4,6 +4,7 @@
     <string name="app_name">Artists</string>
     <string name="short_description" formatted="false">%d %s, %d %s</string>
     <string name="description_title">Biography</string>
+    <string name="connection_failure">Please, check internet connection</string>
 
     <plurals name="album">
         <item quantity="one">album</item>
