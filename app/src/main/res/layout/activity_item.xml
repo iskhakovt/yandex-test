@@ -18,7 +18,6 @@
         android:layout_marginBottom="@dimen/item_image_margin"
         android:layout_marginLeft="@dimen/item_image_margin" />
 
-
     <TextView
         android:id="@+id/artistName"
         android:layout_width="fill_parent"

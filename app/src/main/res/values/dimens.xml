@@ -7,5 +7,5 @@
     <dimen name="item_text_left_margin">15dp</dimen>
     <dimen name="item_text_top_margin">6dp</dimen>
     <dimen name="item_subtext_top_margin">4dp</dimen>
-    <dimen name="big_image_height">160dp</dimen>
+    <dimen name="big_image_height">200dp</dimen>
 </resources>

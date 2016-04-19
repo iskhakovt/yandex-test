@@ -16,6 +16,8 @@
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/image"
         android:layout_width="fill_parent"
+        android:gravity="fill_horizontal"
+        android:scaleType="centerCrop"
         android:layout_height="@dimen/big_image_height" />
 
     <TextView
