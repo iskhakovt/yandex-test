@@ -11,7 +11,7 @@
     android:padding="6dp" >
 
     <ImageView
-        android:id="@+id/icon"
+        android:id="@+id/artist_image"
         android:layout_width="@dimen/item_height"
         android:layout_height="@dimen/item_height"
         android:src="@drawable/placeholder"
@@ -25,7 +25,7 @@
         android:layout_marginLeft="@dimen/item_image_margin" />
 
     <TextView
-        android:id="@+id/artistName"
+        android:id="@+id/artist_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignWithParentIfMissing="false"
@@ -35,15 +35,15 @@
         android:singleLine="true"
         android:textSize="20sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_alignTop="@+id/icon"
-        android:layout_toRightOf="@+id/icon"
-        android:layout_toEndOf="@+id/icon"
+        android:layout_alignTop="@+id/artist_image"
+        android:layout_toRightOf="@+id/artist_image"
+        android:layout_toEndOf="@+id/artist_image"
         android:layout_marginTop="@dimen/item_text_top_margin"
         android:layout_marginLeft="@dimen/item_text_left_margin"
         android:layout_alignParentRight="false" />
 
     <TextView
-        android:id="@+id/artistGenre"
+        android:id="@+id/artist_genre"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
@@ -51,22 +51,22 @@
         android:singleLine="true"
         android:textSize="14sp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/artistName"
-        android:layout_alignLeft="@+id/artistName"
-        android:layout_alignStart="@+id/artistName"
+        android:layout_below="@+id/artist_name"
+        android:layout_alignLeft="@+id/artist_name"
+        android:layout_alignStart="@+id/artist_name"
         android:layout_marginTop="@dimen/item_subtext_top_margin" />
 
     <TextView
-        android:id="@+id/artistShortDescription"
+        android:id="@+id/artist_short_description"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:textSize="14sp"
-        android:layout_alignBottom="@+id/icon"
-        android:layout_alignLeft="@+id/artistGenre"
-        android:layout_alignStart="@+id/artistGenre"
+        android:layout_alignBottom="@+id/artist_image"
+        android:layout_alignLeft="@+id/artist_genre"
+        android:layout_alignStart="@+id/artist_genre"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

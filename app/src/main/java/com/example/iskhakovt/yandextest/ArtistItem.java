@@ -7,11 +7,14 @@
 package com.example.iskhakovt.yandextest;
 
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class ArtistItem implements Serializable {
     private String name;
-    private String genre;
+    private List<String> genres;
     private int tracks;
     private int albums;
 
@@ -20,10 +23,10 @@ public class ArtistItem implements Serializable {
     private String smallCoverUrl;
     private String bigCoverUrl;
 
-    public ArtistItem(String name, String genre, int tracks, int albums,
+    public ArtistItem(String name, List<String> genres, int tracks, int albums,
                       String link, String description, String smallCoverUrl, String bigCoverUrl) {
         this.name = name;
-        this.genre = genre;
+        this.genres = genres;
         this.tracks = tracks;
         this.albums = albums;
         this.link = link;
@@ -36,8 +39,12 @@ public class ArtistItem implements Serializable {
         return name;
     }
 
-    public String getGenre() {
-        return genre;
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public String getGenreString() {
+        return TextUtils.join(", ", genres);
     }
 
     public int getTracks() {
@@ -62,5 +69,9 @@ public class ArtistItem implements Serializable {
 
     public String getBigCoverUrl() {
         return bigCoverUrl;
+    }
+
+    public Boolean hasGenre(String genre) {
+        return genres.indexOf(genre) != -1;
     }
 }

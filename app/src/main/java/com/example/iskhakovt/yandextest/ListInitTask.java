@@ -116,7 +116,6 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
                 genres.add(json.getJSONArray("genres").getString(i));
             }
 
-            String genre = TextUtils.join(", ", genres);
             int tracks = Integer.parseInt(json.getString("tracks"));
             int albums = Integer.parseInt(json.getString("albums"));
             String link = json.getString("link");
@@ -124,7 +123,7 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
             String smallCoverUrl = json.getJSONObject("cover").getString("small");
             String bigCoverUrl = json.getJSONObject("cover").getString("big");
 
-            return new ArtistItem(name, genre, tracks, albums, link, description, smallCoverUrl, bigCoverUrl);
+            return new ArtistItem(name, genres, tracks, albums, link, description, smallCoverUrl, bigCoverUrl);
         } catch (JSONException e) {
             return null;
         }

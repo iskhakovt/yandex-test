@@ -33,18 +33,18 @@ public class ArtistActivity extends AppCompatActivity {
         // Add toolbar's Up button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         artistItem = (ArtistItem)intent.getSerializableExtra(MainActivity.ARTIST_ITEM);
 
-        ImageView imageView = (ImageView) findViewById(R.id.artistImage);
-        TextView artistGenreView = (TextView) findViewById(R.id.artistGenre);
-        TextView artistShortDescriptionView = (TextView) findViewById(R.id.artistShortDescription);
-        TextView artistDescriptionView = (TextView) findViewById(R.id.artistDescription);
+        final ImageView imageView = (ImageView) findViewById(R.id.artist_image);
+        TextView artistGenreView = (TextView) findViewById(R.id.artist_genre);
+        TextView artistShortDescriptionView = (TextView) findViewById(R.id.artist_short_description);
+        TextView artistDescriptionView = (TextView) findViewById(R.id.artist_description);
 
         // Toolbar's title
         getSupportActionBar().setTitle(artistItem.getName());
 
-        artistGenreView.setText(artistItem.getGenre());
+        artistGenreView.setText(artistItem.getGenreString());
 
         int albumsNum = artistItem.getAlbums();
         int tracksNum = artistItem.getTracks();
@@ -61,7 +61,7 @@ public class ArtistActivity extends AppCompatActivity {
 
         artistDescriptionView.setText(artistItem.getDescription());
 
-        ImageDownloadTask downloadTask = new ImageDownloadTask(imageView);
+        final ImageDownloadTask downloadTask = new ImageDownloadTask(imageView);
         downloadTask.execute(artistItem.getBigCoverUrl());
     }
 
@@ -87,7 +87,7 @@ public class ArtistActivity extends AppCompatActivity {
 
     public void onWebsite(MenuItem menuItem) {
         String url = artistItem.getLink();
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
         if (browserIntent.resolveActivity(getPackageManager()) == null) {
             // No browser found

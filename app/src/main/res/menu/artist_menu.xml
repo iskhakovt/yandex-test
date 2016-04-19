@@ -15,7 +15,7 @@
         <menu>
             <item xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/websiteItem"
+                android:id="@+id/website_item"
                 android:title="@string/website"
                 android:onClick="onWebsite"
                 app:showAsAction="always" />

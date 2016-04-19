@@ -26,7 +26,7 @@
         android:layout_below="@+id/toolbar" >
 
         <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/artistImage"
+            android:id="@+id/artist_image"
             android:layout_width="@dimen/big_image_width"
             android:gravity="fill_vertical"
             android:scaleType="centerCrop"
@@ -38,7 +38,7 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/artistGenre"
+                android:id="@+id/artist_genre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -47,7 +47,7 @@
                 android:layout_marginTop="16dp" />
 
             <TextView
-                android:id="@+id/artistShortDescription"
+                android:id="@+id/artist_short_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -56,7 +56,7 @@
                 android:layout_marginTop="16dp" />
 
             <TextView
-                android:id="@+id/artistDescriptionTitle"
+                android:id="@+id/artist_description_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -74,7 +74,7 @@
                 android:layout_marginTop="15dp" >
 
                 <TextView
-                    android:id="@+id/artistDescription"
+                    android:id="@+id/artist_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"

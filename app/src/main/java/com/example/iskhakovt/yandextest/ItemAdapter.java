@@ -20,6 +20,9 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class ItemAdapter extends ArrayAdapter<ArtistItem> {
     private final List<ArtistItem> items;
@@ -55,25 +58,25 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_item, parent, false);
 
             holder = new ViewHolder();
-            holder.artistNameView = (TextView) convertView.findViewById(R.id.artistName);
-            holder.artistGenreView = (TextView) convertView.findViewById(R.id.artistGenre);
-            holder.artistDescriptionView = (TextView) convertView.findViewById(R.id.artistShortDescription);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.icon);
+            holder.artistNameView = (TextView) convertView.findViewById(R.id.artist_name);
+            holder.artistGenreView = (TextView) convertView.findViewById(R.id.artist_genre);
+            holder.artistDescriptionView = (TextView) convertView.findViewById(R.id.artist_short_description);
+            holder.imageView = (ImageView) convertView.findViewById(R.id.artist_image);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ArtistItem artistItem = getItem(position);
+        final ArtistItem artistItem = getItem(position);
 
         holder.artistNameView.setText(artistItem.getName());
-        holder.artistGenreView.setText(artistItem.getGenre());
+        holder.artistGenreView.setText(artistItem.getGenreString());
 
         int albumsNum = artistItem.getAlbums();
         int tracksNum = artistItem.getTracks();
@@ -90,17 +93,17 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
         );
 
         // Display placeholder while downloading
-        Drawable placeholder = convertView.getResources().getDrawable(R.drawable.placeholder);
+        final Drawable placeholder = convertView.getResources().getDrawable(R.drawable.placeholder);
         holder.imageView.setImageDrawable(placeholder);
 
         // Cancel previous task
-        ImageDownloadTask previousDownloadTask = this.imageDownloadTasks.get(holder.imageView);
+        final ImageDownloadTask previousDownloadTask = this.imageDownloadTasks.get(holder.imageView);
         if (previousDownloadTask != null) {
             previousDownloadTask.cancel(false);
         }
 
         // Start downloading a new image
-        ImageDownloadTask downloadTask = new ImageDownloadTask(holder.imageView);
+        final ImageDownloadTask downloadTask = new ImageDownloadTask(holder.imageView);
         downloadTask.execute(artistItem.getSmallCoverUrl());
         this.imageDownloadTasks.put(holder.imageView, downloadTask);
 
@@ -125,28 +128,55 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
     }
 
     public class ArtistItemFilter extends Filter {
+        /**
+         * Filter atrist items
+         * @param constraint JSON string with fields name and genre
+         */
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
 
-            if (constraint != null && constraint.length() > 0) {
-                CharSequence normConstraint = normalize(constraint.toString());
+            try {
+                JSONObject json = new JSONObject(constraint.toString());
+
+                String name = normalize(json.getString("name"));
+                String genre = json.getString("genre");
+
                 List<ArtistItem> tempList = new ArrayList<>();
 
                 for (ArtistItem artist : items) {
-                    if (normalize(artist.getName()).contains(normConstraint)) {
+                    if (fitName(name, artist) && fitGenre(genre, artist)) {
                         tempList.add(artist);
                     }
                 }
 
                 filterResults.count = tempList.size();
                 filterResults.values = tempList;
-            } else {
+            } catch (JSONException e) {
                 filterResults.count = items.size();
                 filterResults.values = items;
             }
 
             return filterResults;
+        }
+
+
+        /**
+         * Checks whether the artist name was searching for
+         * @param constraint name search string
+         * @param candidate artist
+         */
+        private boolean fitName(String constraint, ArtistItem candidate) {
+            return constraint.length() == 0 || normalize(candidate.getName()).contains(constraint);
+        }
+
+        /**
+         * Checks whether the artist genre was searching for
+         * @param constraint genre name
+         * @param candidate artist
+         */
+        private boolean fitGenre(String constraint, ArtistItem candidate) {
+            return constraint.length() == 0 || candidate.hasGenre(constraint);
         }
 
         /**
