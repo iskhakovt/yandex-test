@@ -2,20 +2,24 @@
 <resources>
     <string name="app_name">Исполнители</string>
     <string name="description_title">Биография</string>
-    <string name="connection_failure">Пожалуйста, проверьте соединение</string>
     <string name="website">Открыть сайт</string>
 
-    <plurals name="album">
-        <item quantity="zero">альбомов</item>
-        <item quantity="one">альбом</item>
-        <item quantity="few">альбома</item>
-        <item quantity="many">альбомов</item>
+    <string name="connection_failure">Пожалуйста, проверьте соединение</string>
+    <string name="no_browser">Пожалуйста, установите интернет-браузер"</string>
+
+    <string name="albums_zero">нет альбомов</string>
+    <plurals name="albums">
+        <item quantity="zero">@string/albums_zero</item>
+        <item quantity="one">%d альбом</item>
+        <item quantity="few">%d альбома</item>
+        <item quantity="many">%d альбомов</item>
     </plurals>
 
+    <string name="tracks_zero">нет альбомов</string>
     <plurals name="tracks">
-        <item quantity="zero">песен</item>
-        <item quantity="one">песня</item>
-        <item quantity="few">песни</item>
-        <item quantity="many">песен</item>
+        <item quantity="zero">@string/tracks_zero</item>
+        <item quantity="one">%d песня</item>
+        <item quantity="few">%d песни</item>
+        <item quantity="many">%d песен</item>
     </plurals>
 </resources>

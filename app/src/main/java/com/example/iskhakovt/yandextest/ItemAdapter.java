@@ -71,11 +71,16 @@ public class ItemAdapter extends BaseAdapter {
 
         int albumsNum = artistItem.getAlbums();
         int tracksNum = artistItem.getTracks();
-        String albumsStr = convertView.getResources().getQuantityString(R.plurals.album, albumsNum);
-        String tracksStr = convertView.getResources().getQuantityString(R.plurals.tracks, tracksNum);
+        String albumsStr = ResourcesPluralUtil.getQuantityStringZero(
+                convertView.getResources(), R.plurals.albums, R.string.albums_zero, albumsNum
+        );
+        String tracksStr = ResourcesPluralUtil.getQuantityStringZero(
+                convertView.getResources(), R.plurals.tracks, R.string.tracks_zero, tracksNum
+        );
+
         holder.artistDescriptionView.setText(
-                String.format(convertView.getResources().getString(R.string.short_description),
-                        albumsNum, albumsStr, tracksNum, tracksStr)
+                String.format(convertView.getResources().getString(R.string.short_description_item),
+                        albumsStr, tracksStr)
         );
 
         // Display placeholder while downloading

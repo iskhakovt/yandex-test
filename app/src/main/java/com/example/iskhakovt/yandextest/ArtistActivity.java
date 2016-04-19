@@ -48,11 +48,15 @@ public class ArtistActivity extends AppCompatActivity {
 
         int albumsNum = artistItem.getAlbums();
         int tracksNum = artistItem.getTracks();
-        String albumsStr = this.getResources().getQuantityString(R.plurals.album, albumsNum);
-        String tracksStr = this.getResources().getQuantityString(R.plurals.tracks, tracksNum);
+        String albumsStr = ResourcesPluralUtil.getQuantityStringZero(
+                this.getResources(), R.plurals.albums, R.string.albums_zero, albumsNum
+        );
+        String tracksStr = ResourcesPluralUtil.getQuantityStringZero(
+                this.getResources(), R.plurals.tracks, R.string.tracks_zero, tracksNum
+        );
+
         artistShortDescriptionView.setText(
-                String.format(getString(R.string.short_description),
-                        albumsNum, albumsStr, tracksNum, tracksStr)
+                String.format(getString(R.string.short_description_artist), albumsStr, tracksStr)
         );
 
         artistDescriptionView.setText(artistItem.getDescription());
