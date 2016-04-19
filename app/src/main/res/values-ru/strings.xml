@@ -3,6 +3,7 @@
     <string name="app_name">Исполнители</string>
     <string name="description_title">Биография</string>
     <string name="website">Открыть сайт</string>
+    <string name="search">Поиск...</string>
 
     <string name="connection_failure">Пожалуйста, проверьте соединение</string>
     <string name="no_browser">Пожалуйста, установите интернет-браузер"</string>

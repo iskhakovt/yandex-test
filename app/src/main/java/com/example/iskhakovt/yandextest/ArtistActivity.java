@@ -36,7 +36,7 @@ public class ArtistActivity extends AppCompatActivity {
         Intent intent = getIntent();
         artistItem = (ArtistItem)intent.getSerializableExtra(MainActivity.ARTIST_ITEM);
 
-        ImageView imageView = (ImageView) findViewById(R.id.image);
+        ImageView imageView = (ImageView) findViewById(R.id.artistImage);
         TextView artistGenreView = (TextView) findViewById(R.id.artistGenre);
         TextView artistShortDescriptionView = (TextView) findViewById(R.id.artistShortDescription);
         TextView artistDescriptionView = (TextView) findViewById(R.id.artistDescription);

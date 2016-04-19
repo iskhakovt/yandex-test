@@ -22,6 +22,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListInitTask extends AsyncTask<String, Void, String> {
@@ -43,7 +44,7 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
             return;
         }
 
-        ArrayList<ArtistItem> attributes = new ArrayList<>();
+        List<ArtistItem> attributes = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(response);
 
@@ -66,6 +67,7 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
         }
     }
 
+    @Nullable
     private String downloadFile(String url) {
         HttpURLConnection urlConnection = null;
         try {
