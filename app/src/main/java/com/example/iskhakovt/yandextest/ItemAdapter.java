@@ -57,7 +57,7 @@ public class ItemAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.artistNameView = (TextView) convertView.findViewById(R.id.artistName);
             holder.artistGenreView = (TextView) convertView.findViewById(R.id.artistGenre);
-            holder.artistDescriptionView = (TextView) convertView.findViewById(R.id.artistDescription);
+            holder.artistDescriptionView = (TextView) convertView.findViewById(R.id.artistShortDescription);
             holder.imageView = (ImageView) convertView.findViewById(R.id.image);
 
             convertView.setTag(holder);

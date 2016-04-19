@@ -6,10 +6,8 @@
 
 package com.example.iskhakovt.yandextest;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,12 +24,10 @@ import java.util.ArrayList;
 
 
 public class ListInitTask extends AsyncTask<String, Void, String> {
-    private final WeakReference<ListView> listViewReference;
-    private final WeakReference<Context> contextReference;
+    private final WeakReference<MainActivity> activityReference;
 
-    public ListInitTask(ListView listView, Context context) {
-        listViewReference = new WeakReference<>(listView);
-        contextReference = new WeakReference<>(context);
+    public ListInitTask(MainActivity activity) {
+        activityReference = new WeakReference<>(activity);
     }
 
     @Override
@@ -56,13 +52,11 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
                     attributes.add(artistItem);
                 }
             }
-        } catch (Exception e) {}
 
-        ListView listView = listViewReference.get();
-        Context context = contextReference.get();
-        ItemAdapter adaptor = new ItemAdapter(context, attributes);
-        listView.setAdapter(adaptor);
-        adaptor.notifyDataSetChanged();
+            activityReference.get().loaded(attributes);
+        } catch (Exception e) {
+            activityReference.get().notLoaded();
+        }
     }
 
     private String downloadFile(String url) {

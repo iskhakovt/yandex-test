@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="artist_resource_url">http://download.cdn.yandex.net/mobilization-2016/artists.json</string>
     <string name="app_name">Artists</string>
     <string name="short_description" formatted="false">%d %s, %d %s</string>
+    <string name="description_title">Biography</string>
 
     <plurals name="album">
         <item quantity="one">album</item>

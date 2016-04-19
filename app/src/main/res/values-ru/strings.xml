@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Исполнители</string>
+    <string name="description_title">Биография</string>
 
     <plurals name="album">
         <item quantity="zero">альбомов</item>
