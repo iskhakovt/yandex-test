@@ -66,7 +66,7 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
             holder.artistNameView = (TextView) convertView.findViewById(R.id.artist_name);
             holder.artistGenreView = (TextView) convertView.findViewById(R.id.artist_genre);
             holder.artistDescriptionView = (TextView) convertView.findViewById(R.id.artist_short_description);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.artist_image);
+            holder.imageView = (ImageView) convertView.findViewById(R.id.artist_small_image);
 
             convertView.setTag(holder);
         } else {

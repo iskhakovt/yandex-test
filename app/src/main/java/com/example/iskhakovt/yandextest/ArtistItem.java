@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Artist entry
  */
-public class ArtistItem implements Serializable {
+public class ArtistItem implements Serializable, Comparable<ArtistItem> {
     private String name;
     private List<String> genres;
     private int tracks;
@@ -37,6 +37,11 @@ public class ArtistItem implements Serializable {
         this.description = description;
         this.smallCoverUrl = smallCoverUrl;
         this.bigCoverUrl = bigCoverUrl;
+    }
+
+    @Override
+    public int compareTo(ArtistItem artistItem) {
+        return getName().compareTo(artistItem.getName());
     }
 
     public String getName() {

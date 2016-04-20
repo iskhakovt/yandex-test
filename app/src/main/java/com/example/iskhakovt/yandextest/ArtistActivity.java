@@ -9,7 +9,6 @@ package com.example.iskhakovt.yandextest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -45,7 +44,7 @@ public class ArtistActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         artistItem = (ArtistItem)intent.getSerializableExtra(MainActivity.ARTIST_ITEM);
 
-        final ImageView imageView = (ImageView) findViewById(R.id.artist_image);
+        final ImageView imageView = (ImageView) findViewById(R.id.artist_big_image);
         TextView artistGenreView = (TextView) findViewById(R.id.artist_genre);
         TextView artistShortDescriptionView = (TextView) findViewById(R.id.artist_short_description);
         TextView artistDescriptionView = (TextView) findViewById(R.id.artist_description);
@@ -82,13 +81,8 @@ public class ArtistActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the toolbars's Up button
             case android.R.id.home:
-                Intent intent = NavUtils.getParentActivityIntent(this);
-
-                // Clear the activity top
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                // Back to parent activity
-                NavUtils.navigateUpTo(this, intent);
+                // Same as Back Button
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);

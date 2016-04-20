@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Timur Iskhakov.
+  ~ Distributed under the terms of the MIT License.
+-->
+
+
+<resources>
+    <integer name="random_seed">218</integer>
+</resources>

@@ -33,4 +33,6 @@
         <item quantity="one">%d track</item>
         <item quantity="other">%d tracks</item>
     </plurals>
+
+    <string name="artist_image_transition" translatable="false">shared_artist_image</string>
 </resources>

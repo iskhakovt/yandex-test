@@ -6,8 +6,10 @@
 
 package com.example.iskhakovt.yandextest;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,8 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 
@@ -163,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     *
+     * Load artists JSON file
      */
     private void loadArtists() {
         new ListInitTask(this).execute(getString(R.string.artist_resource_url));
@@ -176,6 +180,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void loaded(List<ArtistItem> attributes) {
         // Not required now, useful if updates would be implemented
         connectionFailureObserved = false;
+        
+        Collections.shuffle(attributes, new Random(getResources().getInteger(R.integer.random_seed)));
 
         final ListView listView = (ListView) findViewById(R.id.list_view);
 
@@ -189,13 +195,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                ArtistItem item = (ArtistItem) listView.getItemAtPosition(position);
+                ArtistItem artistItem = (ArtistItem) listView.getItemAtPosition(position);
 
                 Intent intent = new Intent(parent.getContext(), ArtistActivity.class);
-                intent.putExtra(ARTIST_ITEM, item);
 
-                // Show Artist Activity
-                startActivity(intent);
+                // Selected artist to Artist Activity
+                intent.putExtra(ARTIST_ITEM, artistItem);
+
+                // Selected item in listView holder
+                final ItemAdapter.ViewHolder holder = (ItemAdapter.ViewHolder) view.getTag();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    String sharedElementName = getString(R.string.artist_image_transition);
+
+                    // Show animation
+                    ActivityOptions options = ActivityOptions
+                            .makeSceneTransitionAnimation(MainActivity.this, holder.imageView, sharedElementName);
+
+                    // Show Artist Activity
+                    startActivity(intent, options.toBundle());
+                } else {
+                    // Show Artist Activity
+                    startActivity(intent);
+                }
             }
         });
 

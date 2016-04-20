@@ -22,7 +22,8 @@
         android:layout_alignParentBottom="false"
         android:layout_marginTop="@dimen/item_image_margin"
         android:layout_marginBottom="@dimen/item_image_margin"
-        android:layout_marginLeft="@dimen/item_image_margin" />
+        android:layout_marginLeft="@dimen/item_image_margin"
+        android:transitionName="@string/artist_image_transition" />
 
     <TextView
         android:id="@+id/artist_name"
