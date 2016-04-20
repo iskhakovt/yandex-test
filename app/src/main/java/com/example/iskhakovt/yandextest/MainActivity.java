@@ -31,10 +31,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void loaded(List<ArtistItem> attributes) {
         // Not required now, useful if updates would be implemented
         connectionFailureObserved = false;
-        
+
         Collections.shuffle(attributes, new Random(getResources().getInteger(R.integer.random_seed)));
 
         final ListView listView = (ListView) findViewById(R.id.list_view);
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final Menu menu = navigationView.getMenu();
 
         // Get all genres
-        Set<String> genreSet = new HashSet<>();
+        Set<String> genreSet = new TreeSet<>();
         for (ArtistItem artist : attributes) {
             for (String genre : artist.getGenres()) {
                 genreSet.add(genre);
@@ -233,18 +233,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         // Ensure that "All genres" id is unique
-        int start = R.id.nav_all_genres + 1;
+        int start = R.id.nav_all_genre + 1;
 
         // Put all genres to array and create menu items
         // ID = position in list + NAV_MENU_ITEM_ID_START
         for (String genre : genreSet) {
             int id = this.genres.size() + start;
             this.genres.add(genre);
-            menu.add(R.id.nav_genre, id, 0, genre);
+            menu.add(R.id.nav_genre_group, id, 0, genre);
         }
 
         // Make all item checkable, make the check exclusive
-        menu.setGroupCheckable(R.id.nav_genre, true, true);
+        menu.setGroupCheckable(R.id.nav_genre_group, true, true);
     }
 
     /**
@@ -322,11 +322,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         item.setCheckable(true);
 
+        // Genre items start id
+        int start = R.id.nav_all_genre + 1;
+
+        // Save selected only one item
+        // This is required, because items are located in two groups
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (item.getGroupId() == R.id.nav_genre_group) {
+            navigationView.getMenu().findItem(R.id.nav_all_genre).setChecked(false);
+        } else {
+            for (int i = 0; i != genres.size(); ++i) {
+                navigationView.getMenu().findItem(i + start).setChecked(false);
+            }
+        }
+
         // Handle navigation view item clicks here
         int id = item.getItemId();
-        int start = R.id.nav_all_genres + 1;
 
-        if (id == R.id.nav_all_genres) {
+        if (id == R.id.nav_all_genre) {
             if (!searchGenre.equals("")) {
                 searchGenre = "";
                 displaySearched();

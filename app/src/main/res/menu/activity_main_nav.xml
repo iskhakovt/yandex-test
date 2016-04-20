@@ -6,14 +6,19 @@
 
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <group android:checkableBehavior="single"
-        android:id="@+id/nav_genre">
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/nav_all_genre_group">
 
         <item
-            android:id="@+id/nav_all_genres"
+            android:id="@+id/nav_all_genre"
             android:orderInCategory="0"
             android:checked="true"
             android:title="@string/all_genres" />
 
     </group>
+
+    <group
+        android:id="@+id/nav_genre_group"
+        android:checkableBehavior="single" />
 </menu>

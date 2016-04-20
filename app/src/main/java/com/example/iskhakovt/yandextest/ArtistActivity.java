@@ -44,7 +44,6 @@ public class ArtistActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         artistItem = (ArtistItem)intent.getSerializableExtra(MainActivity.ARTIST_ITEM);
 
-        final ImageView imageView = (ImageView) findViewById(R.id.artist_big_image);
         TextView artistGenreView = (TextView) findViewById(R.id.artist_genre);
         TextView artistShortDescriptionView = (TextView) findViewById(R.id.artist_short_description);
         TextView artistDescriptionView = (TextView) findViewById(R.id.artist_description);
@@ -68,7 +67,13 @@ public class ArtistActivity extends AppCompatActivity {
         );
 
         artistDescriptionView.setText(artistItem.getDescription());
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        final ImageView imageView = (ImageView) findViewById(R.id.artist_big_image);
         final ImageDownloadTask downloadTask = new ImageDownloadTask(imageView);
         downloadTask.execute(artistItem.getBigCoverUrl());
     }

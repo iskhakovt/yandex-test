@@ -29,17 +29,11 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
     private List<ArtistItem> filteredItems;
     private final ArtistItemFilter filter = new ArtistItemFilter();
 
-    /**
-     * Executing image download tasks
-     */
-    HashMap<ImageView, ImageDownloadTask> imageDownloadTasks;
-
     public ItemAdapter(Context context, List<ArtistItem> items) {
         super(context, 0, items);
 
         this.items = items;
         this.filteredItems = items;
-        this.imageDownloadTasks = new HashMap<>();
     }
 
     @Override
@@ -97,15 +91,13 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
         holder.imageView.setImageDrawable(placeholder);
 
         // Cancel previous task
-        final ImageDownloadTask previousDownloadTask = this.imageDownloadTasks.get(holder.imageView);
-        if (previousDownloadTask != null) {
-            previousDownloadTask.cancel(false);
+        if (holder.imageDownloadTask != null) {
+            holder.imageDownloadTask.cancel(false);
         }
 
         // Start downloading a new image
-        final ImageDownloadTask downloadTask = new ImageDownloadTask(holder.imageView);
-        downloadTask.execute(artistItem.getSmallCoverUrl());
-        this.imageDownloadTasks.put(holder.imageView, downloadTask);
+        holder.imageDownloadTask = new ImageDownloadTask(holder.imageView);
+        holder.imageDownloadTask.execute(artistItem.getSmallCoverUrl());
 
         // Start the ellipsize animation
         holder.artistNameView.setSelected(true);
@@ -124,6 +116,7 @@ public class ItemAdapter extends ArrayAdapter<ArtistItem> {
         TextView artistGenreView;
         TextView artistDescriptionView;
         ImageView imageView;
+        ImageDownloadTask imageDownloadTask;
     }
 
 
