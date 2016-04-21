@@ -12,10 +12,10 @@
     <string name="short_description_artist" formatted="false" translatable="false">"%s   \u22C5   %s"</string>
     <string name="description_title">Biography</string>
     <string name="website">Visit website</string>
-    <string name="search">Search...</string>
+    <string name="search">Search</string>
     <string name="all_genres">All genres</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
     <string name="connection_failure">Please, check internet connection</string>
     <string name="no_browser">Please, install a web browser"</string>

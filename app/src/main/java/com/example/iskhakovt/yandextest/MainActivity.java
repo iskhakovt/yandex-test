@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Set hint and hide icon
         final EditText searchEditText = (EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchEditText.setHint(getString(R.string.search));
+        searchEditText.setHint(getString(R.string.search) + "...");
 
         // Add text change events
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
