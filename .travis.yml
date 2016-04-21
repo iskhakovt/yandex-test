@@ -9,6 +9,7 @@ android:
     - extra-android-m2repository
 
     - sys-img-armeabi-v7a-android-23
+    - sys-img-x86-android-23
 
 env:
   global:
@@ -27,7 +28,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew build connectedCheck coveralls --stacktrace
+  - ./gradlew build coveralls --stacktrace
 
 after_success:
   - codecov
