@@ -15,7 +15,7 @@
     tools:context="com.example.iskhakovt.yandextest.ArtistActivity"
     tools:showIn="@layout/activity_artist" >
 
-    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ImageView
         android:id="@+id/artist_big_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/big_image_height"
