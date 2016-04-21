@@ -6,15 +6,16 @@
 
 package com.example.iskhakovt.yandextest;
 
-import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -23,8 +24,6 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -48,9 +47,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public final static String ARTIST_ITEM = "com.example.iskhakovt.yandextest.MainActivity.ARTIST_ITEM";
 
     /**
-     * Last try to download a JSON file failed
+     * Adapter is not set yet, first JSON download try failed
      */
-    private boolean connectionFailureObserved = false;
+    private boolean firstLoadFailureObserved = false;;
+
+    /**
+     * Swipe Refresh list view layout
+     */
+    SwipeRefreshLayout swipeRefreshLayout;
 
     /**
      * Adapter holding Artist Items for list view
@@ -72,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private List<String> genres = new ArrayList<>();
 
+
+    /**
+     * Navigation View drawer
+     */
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -99,9 +107,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         */
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
+        // Set swipe refresh color
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+
+        // Load artists on refresh
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadArtists();
+            }
+        });
+
         CachingDownload.init(getApplicationContext());
 
         createToolbar();
+
+        // Display refresh icon on start
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
         loadArtists();
     }
 
@@ -202,9 +232,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param attributes list of artists
      */
     public void onLoaded(List<ArtistItem> attributes) {
-        // Not required now, useful if updates would be implemented
-        connectionFailureObserved = false;
-
         Collections.shuffle(attributes, new Random(getResources().getInteger(R.integer.random_seed)));
 
         final ListView listView = (ListView) findViewById(R.id.list_view);
@@ -285,25 +312,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Make all item checkable, make the check exclusive
         menu.setGroupCheckable(R.id.nav_genre_group, true, true);
+
+        // Hide refresh icon
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     /**
      * Failed to load artists file
      */
     public void onNotLoaded() {
-        if (!connectionFailureObserved) {
-            // Do not show toast message a lot of times
-            connectionFailureObserved = true;
+        if (adapter == null) {
+            // Initial load
 
-            // Show toast
-            String text = getString(R.string.connection_failure);
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-            toast.show();
+            if (!firstLoadFailureObserved) {
+                // Do not show toast message a lot of times
+                firstLoadFailureObserved = true;
+
+                // Show toast
+                String text = getString(R.string.connection_failure);
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                toast.show();
+            }
+
+            // Try again
+            loadArtists();
+        } else {
+            // Hide refresh icon
+            swipeRefreshLayout.setRefreshing(false);
+
+            // Option to try again
+            final View.OnClickListener clickListener = new View.OnClickListener() {
+                public void onClick(View v) {
+                    loadArtists();
+                }
+            };
+
+            final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
+
+            // Show try again Snackbar
+            Snackbar
+                    .make(coordinatorLayoutView, R.string.snackbar_text, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.snackbar_action_text, clickListener)
+                    .show();
         }
-
-        // Try again
-        loadArtists();
     }
 
     /**

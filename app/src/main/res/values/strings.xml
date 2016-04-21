@@ -14,6 +14,9 @@
     <string name="website">Visit website</string>
     <string name="search">Search</string>
     <string name="all_genres">All genres</string>
+    <string name="snackbar_text">No connection</string>
+    <string name="snackbar_action_text">Retry</string>
+
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
