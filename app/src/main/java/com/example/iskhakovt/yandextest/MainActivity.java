@@ -6,6 +6,7 @@
 
 package com.example.iskhakovt.yandextest;
 
+import android.annotation.TargetApi;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,9 +19,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -74,6 +78,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*
+        // TODO: find out if it is required
+        // Postpone the transition until the window's decor view has
+        // finished its layout.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            postponeEnterTransition();
+
+            final View decor = getWindow().getDecorView();
+            decor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public boolean onPreDraw() {
+                    decor.getViewTreeObserver().removeOnPreDrawListener(this);
+                        startPostponedEnterTransition();
+                    return true;
+                }
+            });
+        }
+        */
 
         CachingDownload.init(getApplicationContext());
 
@@ -206,11 +230,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 final ItemAdapter.ViewHolder holder = (ItemAdapter.ViewHolder) view.getTag();
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    String sharedElementName = getString(R.string.artist_image_transition);
+                    final View navigationBar = findViewById(android.R.id.navigationBarBackground);
+                    final View statusBar = findViewById(android.R.id.statusBarBackground);
+                    final View toolbar = findViewById(R.id.toolbar);
 
-                    // Show animation
-                    ActivityOptions options = ActivityOptions
-                            .makeSceneTransitionAnimation(MainActivity.this, holder.imageView, sharedElementName);
+                    // TODO: FIX IT
+
+                    // Views to animate
+                    List<Pair<View, String>> pairs = new ArrayList<>();
+
+                    // pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
+                    // NullPointerException because of transparent
+                    // pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
+                    // Transition Name is not set up
+                    // pairs.add(Pair.create(toolbar, toolbar.getTransitionName()));
+
+                    pairs.add(Pair.create((View) holder.imageView, holder.imageView.getTransitionName()));
+
+                    // Animation set up
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                            MainActivity.this, pairs.toArray(new Pair[pairs.size()])
+                    );
 
                     // Show Artist Activity
                     startActivity(intent, options.toBundle());
