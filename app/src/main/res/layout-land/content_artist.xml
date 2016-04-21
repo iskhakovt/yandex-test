@@ -10,65 +10,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.iskhakovt.yandextest.ArtistActivity"
     tools:showIn="@layout/activity_artist" >
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/artist_big_image"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/big_image_height"
-        android:gravity="fill_horizontal"
+        android:layout_width="@dimen/big_image_width"
+        android:layout_height="match_parent"
+        android:gravity="fill_vertical"
         android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/artist_genre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="14sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="16dp" />
-
-    <TextView
-        android:id="@+id/artist_short_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="14sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="16dp" />
-
-    <TextView
-        android:id="@+id/artist_description_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/description_title"
-        android:textSize="16sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="15dp"/>
-
-    <ScrollView
-        android:id="@+id/scroller"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:fillViewport="true"
-        android:layout_marginTop="15dp" >
+        android:layout_height="match_parent" >
 
         <TextView
-            android:id="@+id/artist_description"
+            android:id="@+id/artist_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/artist_short_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/artist_description_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/description_title"
             android:textSize="16sp"
-            android:lineSpacingExtra="2pt"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:paddingBottom="10dp" />
+            android:layout_marginTop="15dp"/>
 
-    </ScrollView>
+        <ScrollView
+            android:id="@+id/scroller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:fillViewport="true"
+            android:layout_marginTop="15dp" >
+
+            <TextView
+                android:id="@+id/artist_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="16sp"
+                android:lineSpacingExtra="2pt"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingBottom="10dp" />
+
+        </ScrollView>
+
+    </LinearLayout>
 
 </LinearLayout>
+

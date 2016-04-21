@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * Succeeded to load artists file
      * @param attributes list of artists
      */
-    public void loaded(List<ArtistItem> attributes) {
+    public void onLoaded(List<ArtistItem> attributes) {
         // Not required now, useful if updates would be implemented
         connectionFailureObserved = false;
 
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     /**
      * Failed to load artists file
      */
-    public void notLoaded() {
+    public void onNotLoaded() {
         if (!connectionFailureObserved) {
             // Do not show toast message a lot of times
             connectionFailureObserved = true;

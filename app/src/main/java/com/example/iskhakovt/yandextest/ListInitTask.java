@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Downloads and unpacks the MainActivity's artist JSON
- * Calls loaded on success and notLoaded on failure
+ * Calls onLoaded on success and onNotLoaded on failure
  */
 public class ListInitTask extends AsyncTask<String, Void, String> {
     private final WeakReference<MainActivity> activityReference;
@@ -56,14 +56,14 @@ public class ListInitTask extends AsyncTask<String, Void, String> {
 
             // Download might finish when the application is in tray, so activity is null
             if (activity != null) {
-                activity.loaded(attributes);
+                activity.onLoaded(attributes);
             }
         } catch (Exception e) {
             MainActivity activity = activityReference.get();
 
             // Download might finish when the application is in tray, so activity is null
             if (activity != null) {
-                activity.notLoaded();
+                activity.onNotLoaded();
             }
         }
     }
