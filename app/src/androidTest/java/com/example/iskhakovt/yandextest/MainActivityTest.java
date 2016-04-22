@@ -6,6 +6,7 @@
 
 package com.example.iskhakovt.yandextest;
 
+import android.os.SystemClock;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.DrawerActions;
@@ -23,6 +24,8 @@ import static org.hamcrest.Matchers.*;
 
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+    private static final String TAG = "MainActivityTest";
+
     private MainActivity mainActivity;
 
     public MainActivityTest() {
@@ -33,7 +36,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void setUp() throws Exception {
         super.setUp();
 
-        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        // injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mainActivity = getActivity();
     }
 
@@ -52,7 +55,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         Espresso.onView(withText("alternative")).perform(click());
         Espresso.onView(withId(R.id.action_search)).perform(click());
         Espresso.onView(isAssignableFrom(EditText.class)).perform(typeText("mu"), pressKey(KeyEvent.KEYCODE_ENTER));
+        SystemClock.sleep(1000 * 10);
         Espresso.onView(withText("Muse")).perform(click());
+        Espresso.pressBack();
+        Espresso.pressBack();
     }
 
     public static Matcher<Object> artistWithName(String expectedName) {
@@ -75,5 +81,18 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
                 return itemMatcher.matches(artistItem.getName());
             }
         };
+    }
+
+    public void tearDown() throws Exception {
+        goBackN();
+        super.tearDown();
+    }
+
+    private void goBackN() {
+        final int N = 10; // how many times to hit back button
+        try {
+            for (int i = 0; i < N; i++)
+                Espresso.pressBack();
+        } catch (Exception e) { }
     }
 }
