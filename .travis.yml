@@ -27,12 +27,14 @@ before_script:
   - emulator -avd test -no-skin -no-audio -no-window -no-boot-anim &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
+  - adb shell "echo mulockname > /sys/power/wake_lock" &
 
 script:
   - ./gradlew build coveralls --stacktrace
 
 after_failure:
-  - ./travis-after-failure.sh
+  - travis-gradle-test-failures-to-console/./travis-after-failure.sh
 
 after_success:
+  - adb shell "echo mylockname >/sys/power/wake_unlock" &
   - codecov
