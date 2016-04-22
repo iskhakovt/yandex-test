@@ -19,20 +19,20 @@ import java.util.List;
 public class ArtistItem implements Serializable, Comparable<ArtistItem> {
     private String name;
     private List<String> genres;
-    private int tracks;
     private int albums;
+    private int tracks;
 
     private String link;
     private String description;
     private String smallCoverUrl;
     private String bigCoverUrl;
 
-    public ArtistItem(String name, List<String> genres, int tracks, int albums,
+    public ArtistItem(String name, List<String> genres, int albums, int tracks,
                       String link, String description, String smallCoverUrl, String bigCoverUrl) {
         this.name = name;
         this.genres = genres;
-        this.tracks = tracks;
         this.albums = albums;
+        this.tracks = tracks;
         this.link = link;
         this.description = description;
         this.smallCoverUrl = smallCoverUrl;
