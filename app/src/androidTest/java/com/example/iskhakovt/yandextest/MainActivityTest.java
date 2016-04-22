@@ -6,6 +6,7 @@
 
 package com.example.iskhakovt.yandextest;
 
+import android.content.Intent;
 import android.os.SystemClock;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
@@ -17,6 +18,9 @@ import android.view.KeyEvent;
 import android.widget.EditText;
 
 import org.hamcrest.Matcher;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
@@ -32,14 +36,16 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super(MainActivity.class);
     }
 
+    @Before
     @Override
     public void setUp() throws Exception {
         super.setUp();
 
-        // injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mainActivity = getActivity();
     }
 
+    @Test
     public void testListView() {
         Espresso.onView(withId(R.id.list_view)).perform(swipeDown());
 
@@ -50,6 +56,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         // Espresso.onData(artistWithName("Imagine Dragons")).inAdapterView(withId(R.id.list_view)).perform(scrollTo(), click());
     }
 
+    @Test
     public void testSearch() {
         Espresso.onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         Espresso.onView(withText("alternative")).perform(click());
@@ -83,16 +90,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         };
     }
 
+    @After
+    @Override
     public void tearDown() throws Exception {
-        goBackN();
+        Intent intent = new Intent(getActivity(), getActivity().getClass());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Removes other Activities from stack
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        mainActivity.startActivity(intent);
         super.tearDown();
-    }
-
-    private void goBackN() {
-        final int N = 10; // how many times to hit back button
-        try {
-            for (int i = 0; i < N; i++)
-                Espresso.pressBack();
-        } catch (Exception e) { }
     }
 }

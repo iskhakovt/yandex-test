@@ -19,6 +19,7 @@ env:
 before_install:
  - chmod +x gradlew
  - pip install --user codecov
+ - git clone https://github.com/lhotari/travis-gradle-test-failures-to-console
 
 # Emulator Management: Create, Start and Wait
 before_script:
@@ -29,6 +30,9 @@ before_script:
 
 script:
   - ./gradlew build coveralls --stacktrace
+
+after_failure:
+  - ./travis-after-failure.sh
 
 after_success:
   - codecov
