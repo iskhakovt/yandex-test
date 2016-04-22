@@ -7,12 +7,15 @@
 package com.example.iskhakovt.yandextest;
 
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.RemoteException;
 import android.os.SystemClock;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
+import android.support.test.uiautomator.UiDevice;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
 import android.widget.EditText;
@@ -39,6 +42,22 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     @Before
     @Override
     public void setUp() throws Exception {
+        // Wake up
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        Point[] coordinates = new Point[4];
+        coordinates[0] = new Point(248, 1520);
+        coordinates[1] = new Point(248, 929);
+        coordinates[2] = new Point(796, 1520);
+        coordinates[3] = new Point(796, 429);
+        try {
+            if (!uiDevice.isScreenOn()) {
+                uiDevice.wakeUp();
+                uiDevice.swipe(coordinates, 10);
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
         super.setUp();
 
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
@@ -62,7 +81,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         Espresso.onView(withText("alternative")).perform(click());
         Espresso.onView(withId(R.id.action_search)).perform(click());
         Espresso.onView(isAssignableFrom(EditText.class)).perform(typeText("mu"), pressKey(KeyEvent.KEYCODE_ENTER));
-        SystemClock.sleep(1000 * 10);
+        SystemClock.sleep(1000);
         Espresso.onView(withText("Muse")).perform(click());
         Espresso.pressBack();
         Espresso.pressBack();
