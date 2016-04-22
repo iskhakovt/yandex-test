@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Toolbar home button now opens the navigation bar
         drawerToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.addDrawerListener(drawerToggle);
+        drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         // Register this as Navigation View Listener

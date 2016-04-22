@@ -8,24 +8,20 @@ package com.example.iskhakovt.yandextest;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.KeyEvent;
+import android.widget.EditText;
 
 import org.hamcrest.Matcher;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import android.support.test.runner.AndroidJUnit4;
 
 import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 
-@RunWith(AndroidJUnit4.class)
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private MainActivity mainActivity;
 
@@ -33,7 +29,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super(MainActivity.class);
     }
 
-    @Before
+    @Override
     public void setUp() throws Exception {
         super.setUp();
 
@@ -41,8 +37,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         mainActivity = getActivity();
     }
 
-    @Test
-    public void listViewTest() {
+    public void testListView() {
         Espresso.onView(withId(R.id.list_view)).perform(swipeDown());
 
         Espresso.onView(withText("Daft Punk")).perform(click());
@@ -52,9 +47,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         // Espresso.onData(artistWithName("Imagine Dragons")).inAdapterView(withId(R.id.list_view)).perform(scrollTo(), click());
     }
 
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
+    public void testSearch() {
+        Espresso.onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        Espresso.onView(withText("alternative")).perform(click());
+        Espresso.onView(withId(R.id.action_search)).perform(click());
+        Espresso.onView(isAssignableFrom(EditText.class)).perform(typeText("mu"), pressKey(KeyEvent.KEYCODE_ENTER));
+        Espresso.onView(withText("Muse")).perform(click());
     }
 
     public static Matcher<Object> artistWithName(String expectedName) {

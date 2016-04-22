@@ -6,13 +6,12 @@
 
 package com.example.iskhakovt.yandextest;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -32,7 +31,7 @@ public class ArtistItemUnitTest {
     }
 
     @Test
-    public void artistItemGetters() throws Exception {
+    public void testArtistItemGetters() throws Exception {
         final ArtistItem artistItem =new ArtistItem(
                 "name", Arrays.asList("A", "B", "C"), 10, 20, "link", "description", "small url", "big url"
         );
@@ -51,21 +50,5 @@ public class ArtistItemUnitTest {
         assertEquals(artistItem.hasGenre("C"), true);
         assertEquals(artistItem.hasGenre("AB"), false);
         assertEquals(artistItem.hasGenre(""), false);
-    }
-
-    public void artistItemGenreString() throws Exception {
-        final ArtistItem artistItem =new ArtistItem(
-                Mockito.anyString(), Mockito.anyListOf(String.class), Mockito.anyInt(), Mockito.anyInt(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()
-        );
-        when(artistItem.getGenreString(Mockito.anyString()));
-    }
-
-    @Test
-    public void artistItemConstructor() throws Exception {
-        final ArtistItem artistItem =new ArtistItem(
-                Mockito.anyString(), Mockito.anyListOf(String.class), Mockito.anyInt(), Mockito.anyInt(),
-                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()
-        );
     }
 }
