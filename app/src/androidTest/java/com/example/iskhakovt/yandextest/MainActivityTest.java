@@ -137,9 +137,16 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         SystemClock.sleep(1000 * 30);
 
         Espresso.onView(withText("Daft Punk")).perform(click());
+        SystemClock.sleep(1000 * 2);
         Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        SystemClock.sleep(1000 * 2);
         Espresso.onView(withText(R.string.website)).perform(click());
-        Espresso.pressBack();
+
+        // Close browser
+        SystemClock.sleep(1000 * 5);
+        final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.pressBack();
+
         Espresso.pressBack();
     }
 

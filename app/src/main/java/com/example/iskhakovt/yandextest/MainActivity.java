@@ -130,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Display refresh icon on start
         setRefreshing(true);
+
+        loadArtists();
     }
 
     /**

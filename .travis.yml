@@ -19,7 +19,6 @@ env:
 before_install:
  - chmod +x gradlew
  - pip install --user codecov
- - git clone https://github.com/lhotari/travis-gradle-test-failures-to-console
 
 # Emulator Management: Create, Start and Wait
 before_script:
@@ -30,14 +29,9 @@ before_script:
   - adb shell "echo mulockname > /sys/power/wake_lock" &
 
 script:
-  - ./gradlew build -x test
-  # - ./gradlew build coveralls --stacktrace
-
-after_failure:
-  - cd travis-gradle-test-failures-to-console
-  - ./travis-after-failure.sh
-  - cd ..
+  # - ./gradlew build -x test
+  - ./gradlew build coveralls --stacktrace
 
 after_success:
   - adb shell "echo mylockname >/sys/power/wake_unlock" &
-  # - codecov
+  - codecov

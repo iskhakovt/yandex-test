@@ -90,7 +90,11 @@ public class MainActivityOfflineTest extends ActivityInstrumentationTestCase2<Ma
     public void testOffline() {
         Espresso.onView(withText(R.string.snackbar_text)).check(matches(isDisplayed()));
 
-        Espresso.onData(artistWithName("Imagine Dragons")).check(doesNotExist());
+        Espresso.onView(withId(R.id.list_view)).perform(swipeDown());
+        SystemClock.sleep(500);
+        Espresso.onView(withText(R.string.snackbar_action_text)).perform(click());
+
+        Espresso.onView(withText("Daft Punk")).check(doesNotExist());
         Espresso.onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         Espresso.onView(withText("alternative")).check(doesNotExist());
         Espresso.pressBack();
@@ -106,19 +110,8 @@ public class MainActivityOfflineTest extends ActivityInstrumentationTestCase2<Ma
         Espresso.onView(withId(R.id.list_view)).perform(swipeDown());
         SystemClock.sleep(1000 * 30);
 
-        Espresso.onData(artistWithName("Imagine Dragons")).perform(click());
+        Espresso.onData(artistWithName("Imagine Dragons")).inAdapterView(withId(R.id.list_view)).perform(click());
         Espresso.pressBack();
-
-        setNetworkState(false);
-        // Wait no connection
-        SystemClock.sleep(1000 * 5);
-
-        Espresso.onView(withId(R.id.list_view)).perform(swipeDown());
-
-        setNetworkState(true);
-        SystemClock.sleep(1000 * 5);
-
-        Espresso.onView(withText(R.string.snackbar_action_text)).perform(click());
     }
 
     public static Matcher<Object> artistWithName(String expectedName) {
