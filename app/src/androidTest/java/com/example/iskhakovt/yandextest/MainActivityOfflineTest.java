@@ -19,8 +19,6 @@ import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.support.test.uiautomator.UiDevice;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.KeyEvent;
-import android.widget.EditText;
 
 import com.robotium.solo.SystemUtils;
 
@@ -30,16 +28,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 
-public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class MainActivityOfflineTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private MainActivity mainActivity;
 
     private SystemAnimations systemAnimations;
 
-    public MainActivityTest() {
+    public MainActivityOfflineTest() {
         super(MainActivity.class);
     }
 
@@ -52,7 +51,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         systemAnimations = new SystemAnimations(getInstrumentation().getContext());
         systemAnimations.disableAll();
 
-        setNetworkState(true);
+        setNetworkState(false);
 
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mainActivity = getActivity();
@@ -60,7 +59,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     public void wakeUp() {
         // Wake up
-        final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         Point[] coordinates = new Point[4];
         coordinates[0] = new Point(248, 1520);
         coordinates[1] = new Point(248, 929);
@@ -88,59 +87,38 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     @Test
-    public void testUpdateSwipe() {
-        Espresso.onView(withId(R.id.list_view)).perform(swipeDown());
-    }
+    public void testOffline() {
+        Espresso.onView(withText(R.string.snackbar_text)).check(matches(isDisplayed()));
 
-    @Test
-    public void testListView() {
-        if (!isNetworkConnected()) {
-            return;
-        }
-
-        // Load artists
-        SystemClock.sleep(1000 * 30);
-
-        Espresso.onView(withText("Daft Punk")).perform(click());
-        Espresso.pressBack();
-
-        Espresso.onData(artistWithName("Imagine Dragons")).inAdapterView(withId(R.id.list_view)).perform(click());
-        Espresso.pressBack();
-    }
-
-    @Test
-    public void testSearch() {
-        if (!isNetworkConnected()) {
-            return;
-        }
-
-        // Load artists
-        SystemClock.sleep(1000 * 30);
-
+        Espresso.onData(artistWithName("Imagine Dragons")).check(doesNotExist());
         Espresso.onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
-        Espresso.onView(withText("alternative")).perform(click());
-        Espresso.onView(withId(R.id.action_search)).perform(click());
-        Espresso.onView(isAssignableFrom(EditText.class)).perform(typeText("mu"), pressKey(KeyEvent.KEYCODE_ENTER));
-        SystemClock.sleep(1000);
-        Espresso.onView(withText("Muse")).perform(click());
+        Espresso.onView(withText("alternative")).check(doesNotExist());
         Espresso.pressBack();
-        Espresso.pressBack();
-    }
 
-    @Test
-    public void testWebsite() {
+        setNetworkState(true);
+
+        // Load artists
+        SystemClock.sleep(1000 * 5);
         if (!isNetworkConnected()) {
             return;
         }
 
-        // Load artists
+        Espresso.onView(withId(R.id.list_view)).perform(swipeDown());
         SystemClock.sleep(1000 * 30);
 
-        Espresso.onView(withText("Daft Punk")).perform(click());
-        Espresso.openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
-        Espresso.onView(withText(R.string.website)).perform(click());
+        Espresso.onData(artistWithName("Imagine Dragons")).perform(click());
         Espresso.pressBack();
-        Espresso.pressBack();
+
+        setNetworkState(false);
+        // Wait no connection
+        SystemClock.sleep(1000 * 5);
+
+        Espresso.onView(withId(R.id.list_view)).perform(swipeDown());
+
+        setNetworkState(true);
+        SystemClock.sleep(1000 * 5);
+
+        Espresso.onView(withText(R.string.snackbar_action_text)).perform(click());
     }
 
     public static Matcher<Object> artistWithName(String expectedName) {

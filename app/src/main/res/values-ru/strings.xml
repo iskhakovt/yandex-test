@@ -14,7 +14,6 @@
     <string name="snackbar_text">Нет подключения</string>
     <string name="snackbar_action_text">Повторить</string>
 
-    <string name="connection_failure">Пожалуйста, проверьте соединение</string>
     <string name="no_browser">Пожалуйста, установите интернет-браузер"</string>
 
     <string name="albums_zero">нет альбомов</string>

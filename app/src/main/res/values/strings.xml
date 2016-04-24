@@ -17,11 +17,10 @@
     <string name="snackbar_text">No connection</string>
     <string name="snackbar_action_text">Retry</string>
 
+    <string name="no_browser">Please, install a web browser"</string>
+
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
-
-    <string name="connection_failure">Please, check internet connection</string>
-    <string name="no_browser">Please, install a web browser"</string>
 
     <string name="albums_zero">no albums</string>
     <plurals name="albums">

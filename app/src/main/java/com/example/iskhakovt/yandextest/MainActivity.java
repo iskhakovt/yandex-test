@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -123,16 +122,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CachingDownload.init(getApplicationContext());
 
         createToolbar();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         // Display refresh icon on start
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-            }
-        });
-
-        loadArtists();
+        setRefreshing(true);
     }
 
     /**
@@ -314,48 +311,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menu.setGroupCheckable(R.id.nav_genre_group, true, true);
 
         // Hide refresh icon
-        swipeRefreshLayout.setRefreshing(false);
+        setRefreshing(false);
     }
 
     /**
      * Failed to load artists file
      */
     public void onNotLoaded() {
-        if (adapter == null) {
-            // Initial load
-
-            if (!firstLoadFailureObserved) {
-                // Do not show toast message a lot of times
-                firstLoadFailureObserved = true;
-
-                // Show toast
-                String text = getString(R.string.connection_failure);
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-                toast.show();
+        final View.OnClickListener clickListener = new View.OnClickListener() {
+            public void onClick(View v) {
+                loadArtists();
             }
+        };
 
-            // Try again
-            loadArtists();
-        } else {
-            // Hide refresh icon
-            swipeRefreshLayout.setRefreshing(false);
+        final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
 
-            // Option to try again
-            final View.OnClickListener clickListener = new View.OnClickListener() {
-                public void onClick(View v) {
-                    loadArtists();
-                }
-            };
+        // Show try again Snackbar
+        Snackbar
+                .make(coordinatorLayoutView, R.string.snackbar_text, Snackbar.LENGTH_LONG)
+                .setAction(R.string.snackbar_action_text, clickListener)
+                .show();
 
-            final View coordinatorLayoutView = findViewById(R.id.snackbarPosition);
+        // Hide refresh icon
+        setRefreshing(false);
+    }
 
-            // Show try again Snackbar
-            Snackbar
-                    .make(coordinatorLayoutView, R.string.snackbar_text, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.snackbar_action_text, clickListener)
-                    .show();
-        }
+    public void setRefreshing(final boolean state) {
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(state);
+            }
+        });
     }
 
     /**
