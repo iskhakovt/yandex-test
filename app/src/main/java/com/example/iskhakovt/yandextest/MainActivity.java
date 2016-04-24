@@ -127,11 +127,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStart() {
         super.onStart();
+        
+        if (adapter == null) {
+            // Display refresh icon on start
+            setRefreshing(true);
 
-        // Display refresh icon on start
-        setRefreshing(true);
-
-        loadArtists();
+            loadArtists();
+        }
     }
 
     /**
