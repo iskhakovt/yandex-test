@@ -118,6 +118,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         SystemClock.sleep(1000 * 30);
 
         Espresso.onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        Espresso.onView(withText("blues")).perform(click());
+        Espresso.onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        Espresso.onView(withText(R.string.all_genres)).perform(click());
+        Espresso.onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
         Espresso.onView(withText("alternative")).perform(click());
         Espresso.onView(withId(R.id.action_search)).perform(click());
         Espresso.onView(isAssignableFrom(EditText.class)).perform(typeText("mu"), pressKey(KeyEvent.KEYCODE_ENTER));

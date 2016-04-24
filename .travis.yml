@@ -26,12 +26,12 @@ before_script:
   - emulator -avd test -no-skin -no-audio -no-window -no-boot-anim &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
-  - adb shell "echo mulockname > /sys/power/wake_lock" &
+  # - adb shell "echo mulockname > /sys/power/wake_lock" &
 
 script:
-  # - ./gradlew build -x test
-  - ./gradlew build coveralls --stacktrace
+  - ./gradlew build -x test
+  # - ./gradlew build coveralls --stacktrace
 
 after_success:
-  - adb shell "echo mylockname >/sys/power/wake_unlock" &
-  - codecov
+  # - adb shell "echo mylockname >/sys/power/wake_unlock" &
+  # - codecov

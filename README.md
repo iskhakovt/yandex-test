@@ -5,4 +5,4 @@ Yandex Test App [![Build Status](https://travis-ci.org/iskhakovt/yandex-test.svg
 
 * Caching download
 * Animation (with some issues)
-* Search my name and genre
+* Search by name and genre
