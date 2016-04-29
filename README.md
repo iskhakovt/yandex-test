@@ -1,4 +1,4 @@
-Yandex Test App [![Build Status](https://travis-ci.org/iskhakovt/yandex-test.svg?branch=master)](https://travis-ci.org/iskhakovt/yandex-test) [![codecov.io](https://codecov.io/github/iskhakovt/yandex-test/coverage.svg?branch=master)](https://codecov.io/github/iskhakovt/yandex-test?branch=master)
+Yandex Test App [![Build Status](https://travis-ci.org/iskhakovt/yandex-test.svg?branch=master)](https://travis-ci.org/iskhakovt/yandex-test) [![codecov](https://codecov.io/gh/iskhakovt/yandex-test/branch/master/graph/badge.svg)](https://codecov.io/gh/iskhakovt/yandex-test)
 ===============
 
 ### Features:
